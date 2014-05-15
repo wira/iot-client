@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ONLINE
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    -->
+    <!-- LOCAL -->
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/webqr.js"></script>
+    <script src="js/llqrcode.js"></script>
+
+    <script src="js/quirksmode.cookies.js"></script>
+    <script src="js/moz.cookies.js"></script>
+</head>
+<body>
+
+    <div data-role="page" id="authPage">
+        <div data-role="content">
+            <div class="centerBox">
+              <input type="button" value="Register" id="register"/>
+              <input type="button" value="Login" id="login" />
+            </div>
+        </div><!-- /content -->
+
+        <div data-role="popup" id="popupLogin">
+          <form>
+            <div style="padding:10px 20px;">
+              <h3>Please sign in</h3>
+                <label for="username" class="ui-hidden-accessible">Username</label>
+                <input id="username" type="text" placeholder="username"/>
+
+                <label for="password" class="ui-hidden-accessible">Password</label>
+                <input id="password" type="password" placeholder="password" />
+
+                <input type="checkbox" name="remember-me" id="remember-me" />
+                <label for="remember-me">Remember me</label>
+                <input type="submit" data-theme="b" id="submit" value="Submit" />
+            </div>
+          </form>
+        </div><!-- /popupLogin -->
+
+        <div data-role="popup" id="popupRegister">
+          <form>
+            <div style="padding:10px 20px;">
+              <h3>Please register</h3>
+                <label for="username" class="ui-hidden-accessible">Username</label>
+                <input id="username" type="text" placeholder="username"/>
+
+                <label for="password" class="ui-hidden-accessible">Password</label>
+                <input id="password" type="password" placeholder="password" />
+
+                <input type="submit" data-theme="b" id="submit" value="Submit" />
+            </div>
+          </form>
+        </div><!-- /popupRegister -->
+    </div><!-- authPage -->
+
+    <div data-role="page" id="homePage">
+
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <h1>Device List</h1>
+            <a href="#popupDialog" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="plus" class="ui-btn-right" id="add_dialog">Add</a>
+        </div><!-- /header -->
+
+        <div data-role="content">
+            <ul id="device_list" data-role="listview" data-inset="true">
+                <!-- auto fill from json -->
+            </ul>
+        </div><!-- /content -->
+
+        <!--<div data-role="footer" data-position="fixed" data-theme="a" data-tap-toggle="false">
+            <h1>External fixed footer</h1>
+        </div>--><!-- /footer -->
+
+        <div data-role="popup" id="popupDialog" class="ui-corner-all">
+            <ul data-role="listview" id="add-device-list">
+                <li data-role="list-divider">Choose an action</li>
+                <li><a id="add_gateway" href="#">Add a new Gateway</a></li>
+                <li><a id="add_devicecontroller" href="#">Add a new Device Controller</a></li>
+                <li><a id="add_device" href="#">Add a new Device</a></li>
+            </ul>
+        </div><!-- /popupDialog -->
+
+        <div data-role="popup" id="popupInput" class="ui-corner-all">
+            <ul data-role="listview" id="device-input-list">
+                <li data-role="list-divider">Choose an action</li>
+                <li><a id="manual_input" href="#">Manual Input</a></li>
+                <!-- WEB RTC -->
+                <!--<li><a href="#" id="camera-button">Camera Input</a></li>-->
+                <div id="videodiv"></div>
+                <!-- HTML Media Capture -->
+                <!--<li><input type="file" accept="image/*;capture=camera"></li>-->
+            </ul>
+        </div><!-- /popupInput -->
+
+        <div data-role="popup" id="popupAddDevice" data-theme="a" class="ui-corner-all">
+            <form action="#" method="post">
+                <div style="padding:10px 20px;">
+                  <h3 id="title">Add a New Device</h3>
+
+                  <label for="select1">Gateway :</label>
+                  <select id="select1">
+                    <!-- dynamically populated via ajax -->
+                  </select>
+
+                  <label for="select2">Device Controller :</label>
+                  <select id="select2">
+                    <!-- dynamically populated via ajax 
+                    <option value="1">Device Controller 1</option>
+                    <option value="2">Device Controller 2</option>-->
+                  </select>
+
+                  <label for="device_id" class="ui-hidden-accessible">Device ID:</label>
+                  <input type="text" name="device_id" id="device_id" value="" placeholder="Manual Input ID" data-theme="a" />
+
+                  <button type="submit" data-theme="b" data-icon="check" id="submit">Submit</button>
+                </div>
+            </form>
+        </div><!-- /popupAddDevice -->
+
+        <div data-role="popup" id="popupAddDeviceController" data-theme="a" class="ui-corner-all">
+            <form action="#" method="post">
+                <div style="padding:10px 20px;">
+                  <h3 id="title">Add a New Device Controller</h3>
+
+                  <label for="select1">Gateway :</label>
+                  <select id="select1">
+                    <!-- dynamically populated via ajax -->
+                  </select>
+
+                  <label for="device_id" class="ui-hidden-accessible">Device Controller ID:</label>
+                  <input type="text" name="device_controller_id" id="device_controller_id" value="" placeholder="Manual Input ID" data-theme="a" />
+
+                  <button type="submit" data-theme="b" data-icon="check" id="submit">Submit</button>
+                </div>
+            </form>
+        </div><!-- /popupAddDeviceController -->
+
+        <div data-role="popup" id="popupAddGateway" data-theme="a" class="ui-corner-all">
+            <form action="#" method="post">
+                <div style="padding:10px 20px;">
+                  <h3 id="title">Add a New Gateway</h3>
+
+                  <label for="gateway_id" class="ui-hidden-accessible">Gateway ID:</label>
+                  <input type="text" name="gateway_id" id="gateway_id" value="" placeholder="Manual Input ID" data-theme="a" />
+
+                  <button type="submit" data-theme="b" data-icon="check" id="submit">Submit</button>
+                </div>
+            </form>
+        </div><!-- /popupAddGateway -->
+
+    </div><!-- /homePage -->
+
+<canvas id="qr-canvas" width="800" height="600"></canvas>
+</body>
+</html>
